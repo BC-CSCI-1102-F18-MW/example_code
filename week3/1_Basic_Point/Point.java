@@ -1,4 +1,4 @@
-// Implementation of the Point interface
+// Point interface
 
 interface Point {
 
