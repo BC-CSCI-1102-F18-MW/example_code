@@ -3,58 +3,62 @@ import edu.princeton.cs.algs4.StdIn;
 
 public class StringStackC implements StringStack {
 
-  // static variable setting max size of stack
   private static final int CAPACITY = 1000;
 
   // Instance variables.
+  //
   private int N;                // The number of Strings in the stack.
   private String[] theStack;
 
   // A constructor.
-  StringStackC() {
+  //
+  public StringStackC() {
     this.N = 0;
     this.theStack = new String[CAPACITY];
   }
 
-  // push
   public void push(String item) {
-    this.theStack[this.N] = item;
-    this.N++;
+
+    if (this.N == CAPACITY)
+      throw new RuntimeException("Stack Overflow.");
+    else
+      this.theStack[this.N++] = item;
   }
 
-  // pop
   public String pop() {
-    String s = this.theStack[this.N-1];
-    this.N--;
-    return s;
+    if (this.isEmpty())
+      throw new NoSuchElementException("Stack Underflow.");
+    else {
+      String item = this.theStack[--this.N];
+      this.theStack[this.N] = null;
+      return item;
+    }
   }
 
-  // peek
   public String peek() {
-    return "foo";
+    if (this.isEmpty())
+      throw new java.util.NoSuchElementException("Stack Underflow.");
+    else
+      return this.theStack[this.N - 1];
   }
 
-  // isEmpty
-  public boolean isEmpty() {
-    return true;
-  }
+  public boolean isEmpty() { return this.N == 0; }
 
-  // toString
   public String toString() {
-    return "My stack!";
+    StringBuilder sb = new StringBuilder();
+
+    for(int i = this.N - 1; i >= 0; i--)
+      sb.append(this.theStack[i].toString() + "\n");
+
+    return sb.toString();
   }
 
-  // main
   public static void main(String[] args) {
 
-    StringStackC mystack = new StringStackC();
-    mystack.push("dog");
-    mystack.push("cat");
-    System.out.println(mystack.pop());
     // Unit test. Reads strings from stdin then prints them
     // in reverse order.
     //
-    /*StringStack ss = new StringStackC();
+    StringStack ss = new StringStackC();
 
     while(!StdIn.isEmpty()) {
       String name = StdIn.readString();
@@ -63,6 +67,6 @@ public class StringStackC implements StringStack {
     while(!ss.isEmpty()) {
       String name = ss.pop();
       System.out.println(name);
-    }*/
+    }
   }
 }
